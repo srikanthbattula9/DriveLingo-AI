@@ -70,3 +70,45 @@ Suggested fields:
 - One traffic sign can have many translations.
 - One traffic sign can appear in many user history records.
 - One translation belongs to one traffic sign.
+
+## Initial SQL Schema Draft
+
+### users
+
+- user_id — primary key
+- name
+- email — unique
+- preferred_language
+- created_at
+
+### traffic_signs
+
+- sign_id — primary key
+- original_image_url
+- ocr_text
+- normalized_text
+- detected_language
+- sign_category
+- country
+- confidence_score
+- created_at
+- updated_at
+
+### sign_translations
+
+- translation_id — primary key
+- sign_id — foreign key
+- target_language
+- translated_text
+- ai_explanation
+- translation_confidence
+- created_at
+- updated_at
+
+### user_history
+
+- history_id — primary key
+- user_id — foreign key
+- sign_id — foreign key
+- translation_id — foreign key
+- processed_at
