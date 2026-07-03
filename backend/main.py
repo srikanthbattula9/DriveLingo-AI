@@ -44,6 +44,21 @@ def create_traffic_sign(
     sign_data: TrafficSignCreate,
     database: Session = Depends(get_database),
 ):
+    existing_sign = (
+        database.query(TrafficSign)
+        .filter(
+            TrafficSign.normalized_text == sign_data.normalized_text,
+            TrafficSign.country == sign_data.country,
+        )
+        .first()
+    )
+
+    if existing_sign is not None:
+        raise HTTPException(
+            status_code=409,
+            detail="Traffic sign already exists",
+        )
+
     new_sign = TrafficSign(**sign_data.model_dump())
 
     database.add(new_sign)
@@ -51,4 +66,3 @@ def create_traffic_sign(
     database.refresh(new_sign)
 
     return new_sign
-
