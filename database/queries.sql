@@ -92,3 +92,17 @@ GROUP BY
     detected_language
 ORDER BY
     average_confidence ASC;
+
+-- Query 6:
+-- Retrieve each traffic sign with its translated text and AI explanation
+
+SELECT
+    ts.sign_id,
+    ts.ocr_text,
+    ts.detected_language,
+    st.target_language,
+    st.translated_text,
+    st.ai_explanation
+FROM traffic_signs ts
+JOIN sign_translations st
+    ON ts.sign_id = st.sign_id;
