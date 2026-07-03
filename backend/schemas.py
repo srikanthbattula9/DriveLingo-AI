@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class TrafficSignCreate(BaseModel):
@@ -10,8 +10,7 @@ class TrafficSignCreate(BaseModel):
     detected_language: str | None = None
     sign_category: str | None = None
     country: str | None = None
-    confidence_score: Decimal | None = None
-
+    confidence_score: Decimal | None = Field(default=None, ge=0, le=1)
 
 class TrafficSignResponse(TrafficSignCreate):
     model_config = ConfigDict(from_attributes=True)
