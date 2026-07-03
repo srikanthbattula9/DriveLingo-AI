@@ -53,3 +53,18 @@ CREATE TABLE user_history (
         FOREIGN KEY (translation_id)
         REFERENCES sign_translations(translation_id)
 );
+-- Example query:
+-- Find how many times each traffic sign has been processed
+
+SELECT
+    ts.sign_id,
+    ts.normalized_text,
+    COUNT(uh.history_id) AS usage_count
+FROM traffic_signs ts
+LEFT JOIN user_history uh
+    ON ts.sign_id = uh.sign_id
+GROUP BY
+    ts.sign_id,
+    ts.normalized_text
+ORDER BY
+    usage_count DESC;
