@@ -68,3 +68,10 @@ GROUP BY
     ts.normalized_text
 ORDER BY
     usage_count DESC;
+
+CREATE UNIQUE INDEX uq_traffic_signs_normalized_country
+ON traffic_signs (
+    normalized_text,
+    COALESCE(country, '')
+);
+
