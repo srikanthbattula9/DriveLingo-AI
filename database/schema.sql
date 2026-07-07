@@ -5,6 +5,17 @@ CREATE TABLE users (
     preferred_language VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE traffic_sign_events (
+    event_id SERIAL PRIMARY KEY,
+    image_path TEXT NOT NULL,
+    source_type VARCHAR(50) NOT NULL,
+    processing_status VARCHAR(30) NOT NULL DEFAULT 'PENDING',
+    country_guess VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    processed_at TIMESTAMP
+);
+
 CREATE TABLE traffic_signs (
     sign_id BIGSERIAL PRIMARY KEY,
     original_image_url TEXT NOT NULL,
@@ -17,6 +28,7 @@ CREATE TABLE traffic_signs (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 CREATE TABLE sign_translations (
     translation_id BIGSERIAL PRIMARY KEY,
     sign_id BIGINT NOT NULL,
@@ -34,6 +46,7 @@ CREATE TABLE sign_translations (
     CONSTRAINT unique_sign_language
         UNIQUE (sign_id, target_language)
 );
+
 CREATE TABLE user_history (
     history_id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL,
@@ -53,6 +66,7 @@ CREATE TABLE user_history (
         FOREIGN KEY (translation_id)
         REFERENCES sign_translations(translation_id)
 );
+
 -- Example query:
 -- Find how many times each traffic sign has been processed
 
@@ -74,4 +88,5 @@ ON traffic_signs (
     normalized_text,
     COALESCE(country, '')
 );
+
 
